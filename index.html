@@ -8,53 +8,63 @@
         <title>Teams Networking</title>
     </head>
     <body>
-        <table id="list">
-            <thead>
-                <tr>
-                    <th>Group</th>
-                    <th>Members</th>
-                    <th>Project Name</th>
-                    <th>Project URL</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-            <tfoot>
-                <tr>
-                    <td>
-                        <input
-                            type="text"
-                            name="group"
-                            id="group"
-                            placeholder="Enter Group"
-                        />
-                    </td>
-                    <td>
-                        <input
-                            type="text"
-                            name="members"
-                            id="members"
-                            placeholder="Enter Members"
-                        />
-                    </td>
-                    <td>
-                        <input
-                            type="text"
-                            name="project_name"
-                            id="project_name"
-                            placeholder="Enter Project Name"
-                        />
-                    </td>
-                    <td>
-                        <input
-                            type="text"
-                            name="project_url"
-                            id="project_url"
-                            placeholder="Enter Project URL"
-                        />
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
+        <form action="" method="post" id="editForm">
+            <table id="list">
+                <thead>
+                    <tr>
+                        <th>Promotion</th>
+                        <th>Members</th>
+                        <th>Project Name</th>
+                        <th>Project URL</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <input
+                                type="text"
+                                name="promotion"
+                                id="promotion"
+                                placeholder="Enter Eromotion"
+                                required
+                            />
+                        </td>
+                        <td>
+                            <input
+                                type="text"
+                                name="members"
+                                id="members"
+                                placeholder="Enter Members"
+                                required
+                            />
+                        </td>
+                        <td>
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                placeholder="Enter Project Name"
+                                required
+                            />
+                        </td>
+                        <td>
+                            <input
+                                type="text"
+                                name="url"
+                                id="url"
+                                placeholder="Enter Project URL"
+                                required
+                            />
+                        </td>
+                        <td>
+                            <button type="submit">Save</button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
         <script src="index.js"></script>
     </body>
 </html>
