@@ -1,36 +1,36 @@
 function getTeamsRequest() {
-    return fetch("http://localhost:3000/teams-json", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    }).then((r) => {
-        return r.json();
-    });
+  return fetch("http://localhost:3000/teams-json", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(r => {
+    return r.json();
+  });
 }
 
 function createTeamsRequest(team) {
-    return fetch("http://localhost:3000/teams-json/create", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(team),
-    }).then((r) => r.json());
+  return fetch("http://localhost:3000/teams-json/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(team)
+  }).then(r => r.json());
 }
 
 function deleteTeamRequest(id) {
-    return fetch("http://localhost:3000/teams-json/delete", {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
-    }).then((r) => r.json());
+  return fetch("http://localhost:3000/teams-json/delete", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ id })
+  }).then(r => r.json());
 }
 
 function getTeamAsHTML(team) {
-    return `<tr>
+  return `<tr>
         <td>${team.promotion}</td>
         <td>${team.members}</td>
         <td>${team.name}</td>
@@ -41,58 +41,58 @@ function getTeamAsHTML(team) {
     </tr>`;
 }
 function showTemas(teams) {
-    const html = teams.map(getTeamAsHTML);
-    $("table tbody").innerHTML = html.join("");
+  const html = teams.map(getTeamAsHTML);
+  $("table tbody").innerHTML = html.join("");
 }
 
 function $(selector) {
-    return document.querySelector(selector);
+  return document.querySelector(selector);
 }
 
 function formSubmit(e) {
-    e.preventDefault();
-    console.warn(e);
+  e.preventDefault();
+  console.warn(e);
 
-    const promotion = $("#promotion").value;
-    const members = $("#members").value;
-    const name = $("#name").value;
-    const url = $("#url").value;
+  const promotion = $("#promotion").value;
+  const members = $("#members").value;
+  const name = $("#name").value;
+  const url = $("#url").value;
 
-    const team = {
-        promotion,
-        members,
-        name,
-        url,
-    };
+  const team = {
+    promotion,
+    members,
+    name,
+    url
+  };
 
-    createTeamsRequest(team).then((status) => {
-        console.info("status", status);
-        window.location.reload();
-    });
+  createTeamsRequest(team).then(status => {
+    console.info("status", status);
+    window.location.reload();
+  });
 }
 
 function deleteTeam(id) {
-    console.warn("delete", id);
-    deleteTeamRequest(id).then((status) => {
-        console.warn("status", status);
-        if (status.success) {
-            window.location.reload();
-        }
-    });
+  console.warn("delete", id);
+  deleteTeamRequest(id).then(status => {
+    console.warn("status", status);
+    if (status.success) {
+      window.location.reload();
+    }
+  });
 }
 
 function initEvents() {
-    $("#editForm").addEventListener("submit", formSubmit);
-    $("table tbody").addEventListener("click", (e) => {
-        if (e.target.matches("a")) {
-            const id = e.target.dataset.id;
-            deleteTeam(id);
-        }
-    });
+  $("#editForm").addEventListener("submit", formSubmit);
+  $("table tbody").addEventListener("click", e => {
+    if (e.target.matches("a")) {
+      const id = e.target.dataset.id;
+      deleteTeam(id);
+    }
+  });
 }
 
-getTeamsRequest().then((teams) => {
-    showTemas(teams);
+getTeamsRequest().then(teams => {
+  showTemas(teams);
 });
 
 initEvents();
