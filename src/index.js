@@ -108,11 +108,13 @@ async function formSubmit(e) {
     url: projectURL
   };
 
+  let changes = false;
+
   if (editId) {
     team.id = editId;
     console.warn("update...?", editId, team);
-    const status = await updateTeamRequest(team);
-    if (status.success) {
+    const { success } = await updateTeamRequest(team);
+    if (success) {
       allTeams = allTeams.map(t => {
         if (t.id === team.id) {
           return {
@@ -122,18 +124,20 @@ async function formSubmit(e) {
         }
         return t;
       });
-
-      showTeams(allTeams);
-      $("#editForm").reset();
+      changes = true;
     }
   } else {
     const { success, id } = await createTeamRequest(team);
     if (success) {
       team.id = id;
       allTeams = [...allTeams, team];
-      showTeams(allTeams);
-      $("#editForm").reset();
+      changes = true;
     }
+  }
+
+  showTeams(allTeams);
+  if (changes) {
+    $("#editForm").reset();
   }
 }
 
@@ -141,8 +145,6 @@ async function deleteTeam(id) {
   console.warn("delete", id);
   const { success } = await deleteTeamRequest(id);
   if (success) {
-    //window.location.reload();
-    // loadTeams();
     allTeams = allTeams.filter(t => t.id !== id);
     showTeams(allTeams);
   }
