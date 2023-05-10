@@ -12,7 +12,7 @@ function getTeamAsHTML({ id, url, promotion, members, name }) {
   return `
   <tr>
     <td>
-      <input type="checkbox" name="selected" />
+      <input type="checkbox" name="selected" value="${id}" />
     </td>
     <td>${promotion}</td>
     <td>${members}</td>
@@ -131,12 +131,38 @@ function searchTeams(teams, search) {
   });
 }
 
-function removeSelected() {
-  console.warn("removeSelected");
-  // find ids...
-  // add mask...
-  // call remove deleteTeamRequest
-  // remove mask
+async function removeSelected() {
+  const checkboxes = $$("#editForm input[name=selected]:checked");
+  console.warn("removeSelected", checkboxes);
+  const ids = [...checkboxes].map(checkbox => checkbox.value);
+  console.warn("removeSelected ids", ids);
+  $("#editForm").classList.add("loading-mask");
+
+  const promises = ids.map(id => deleteTeamRequest(id));
+  const results = await Promise.allSettled(promises);
+  console.warn("remove results", results);
+
+  await loadTeams();
+  $("#editForm").classList.remove("loading-mask");
+}
+
+async function initialLoad() {
+  await sleep(3000);
+  console.time("initialLoad");
+  // const userInfo = await loadTeams(); //getUserInfo();
+  // const userPreferences = await loadTeams(); //getUserPreferences();
+  // const subscription = await loadTeams(); // getSubscription();
+  console.warn("I am ready!!", userInfo, userPreferences, subscription);
+
+  const all = await Promise.allSettled([
+    loadTeams(), // getUserInfo();
+    loadTeams(), // getUserPreferences();
+    loadTeams() // getSubscription();
+  ]);
+
+  // console.warn("I am ready!!", all);
+
+  console.timeEnd("initialLoad");
 }
 
 function initEvents() {
